@@ -1,14 +1,15 @@
 pragma solidity ^0.4.18;
 
 contract Plant {
+    
+    address public creator;
 
 	// initial Variables
 	uint public number_of_leaves;
-	uint public leaves_picked;
+	uint public leaves_picked = 1; // has to start on 1 otherewise it cancels price calculation
 	uint public initial_coins;
 	uint public total_supply;
 	uint public finney_balance; // 1 Ether is 1,000 finney - see this converter -> https://converter.murkin.me/
-	uint public creator;
 	uint public plant_price = 60; // Price is in Finney $20 if approx 60 Finney
 	uint public coin_value;
 	uint public plant_moisture;
@@ -31,33 +32,35 @@ contract Plant {
 		initial_coins = _initial_coins;
 		total_supply = initial_coins;
 		plant_moisture = 70; // Ideal moisture for mint is 70% so let's start with this
-		euro = msg.value;
+		finney_balance = msg.value/1000000000000000;
 		creator = msg.sender;
 		coin_value = (finney_balance*leaves_picked*plant_moisture)/total_supply;
 		number_of_plants ++;
-		depositedFunds(msg.value, euro);
+		depositedFunds(msg.value, finney_balance);
 	}
 
-	function updatePrice() only_creator {
-		uint coin_value = (plant_moisture*leaves_picked*plant_moisture)/total_supply;
+	function updatePrice(uint _plant_moisture, uint _leaves_picked) only_creator {
+	    plant_moisture = _plant_moisture;
+	    leaves_picked += _leaves_picked;
+		uint coin_value = (finney_balance*leaves_picked*plant_moisture)/total_supply;
 		buy_new_plant();
-		updated_price(uint coin_value);
+		updatedPrice(coin_value);
 	}
 
 	function buy_new_plant() private only_if_enough_money {
 		total_supply += initial_coins;
-		euro_balance -= plant_price;
+		coin_value -= plant_price;
 		number_of_plants ++; 
-		plant_was_purchased(euro_balance);
+		plantWasPurchased(coin_value, total_supply);
 	}
 
 	function () payable {
-		euro_balance += msg.value;
-		depositedFunds(msg.value, euro_balance);
+		coin_value += msg.value/1000000000000000;
+		depositedFunds(msg.value, coin_value);
 	}
 
-	function terminate(){
-		selfdestruct();
+	function terminate() only_creator{
+		selfdestruct(creator);
 	}
 
 	event plantWasPurchased(uint newBalance, uint newTotalSupply); // Event
