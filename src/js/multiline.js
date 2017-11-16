@@ -107,11 +107,11 @@ function Chart(data, divId, title) {
 
 
 
-        // Add the Y Axis
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .selectAll("text").attr("x", -10);
+        // // Add the Y Axis
+        // svg.append("g")
+        //     .attr("class", "y axis")
+        //     .call(yAxis)
+        //     .selectAll("text").attr("x", -10);
 
         // Add the X Axis
         svg.append("g")
