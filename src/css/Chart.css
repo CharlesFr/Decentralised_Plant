@@ -12,19 +12,21 @@ path {
 
 
 .tick line{
-	opacity: 0.2;
+	opacity: 0.6 !important;
+	stroke-width: 2 !important;
 }
 
 .axis path,
 .axis line {
 	fill: none;
-	stroke: grey;
+	stroke: white;
 	stroke-width: 1;
+	opacity: 00;
 	shape-rendering: crispEdges;
 }
 
 .axis{
-	fill: #eaeaea;
+	fill: #969696;
 }
 
 .title{

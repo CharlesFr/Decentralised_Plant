@@ -113,7 +113,7 @@ App = {
           // Execute leaf picking function
           return plantInstance.leafPicked(parseInt(leafNum), {from: account});
         }).then(function(result) {
-          console.log("About to set Values");
+          console.log(result);
           return App.SetContractValues();
         }).catch(function(err) {
           console.log(err.message);
