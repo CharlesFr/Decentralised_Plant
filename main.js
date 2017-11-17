@@ -13,14 +13,14 @@ board.on("ready", function() {
   // Create a new generic sensor instance for
   // a sensor connected to an analog (ADC) pin
   var sensor = new five.Sensor("A0");
-  this.samplingInterval(20000);
+  this.samplingInterval(5000);
 
   // When the sensor value changes, log the value
   sensor.on("change", function(value) {
     var moisture = (1 - value/1024) * 100;
     console.log("Moisture = " + moisture + "%");
     data.push([stringifyDate(), moisture.toString()])
-    csv.writeDataToCSV(data, "./src/datatest.csv");
+    csv.writeDataToCSV(data, "./src/data.csv");
 
 
   });
@@ -43,10 +43,14 @@ function stringifyDate() {
     dd = '0' + dd
   }
 
+  if (ss < 10) {
+    ss = '0' + ss
+  }
+
   if (mm < 10) {
     mm = '0' + mm
   }
 
-  today = count%30 + '-' + monthNames[mm] + '-' + yyyy;
+  today = hh+":"+ms+":"+ss+" "+dd+"/"+mm+"/"+yyyy;
   return today;
 }
