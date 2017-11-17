@@ -2,34 +2,22 @@
   "name": "pet-shop",
   "version": "1.0.0",
   "description": "",
-<<<<<<< HEAD
-  "main": "truffle.js",
-=======
   "main": "main.js",
->>>>>>> develop
   "directories": {
     "test": "test"
   },
   "scripts": {
-<<<<<<< HEAD
-    "dev": "lite-server",
-=======
+
     "dev": "node main.js | lite-server",
->>>>>>> develop
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "lite-server": "^2.3.0"
-<<<<<<< HEAD
-=======
-  },
+
   "dependencies": {
     "csv": "^2.0.0",
     "d3-time-format": "^2.1.0",
     "fast-csv": "^2.4.1",
     "johnny-five": "^0.11.7"
->>>>>>> develop
   }
 }
