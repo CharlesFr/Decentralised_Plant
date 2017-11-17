@@ -1,0 +1,45 @@
+
+body { 
+	font: 12px Arial;
+}
+
+
+path { 
+	stroke: white;
+	stroke-width: 2;
+	fill: none;
+}
+
+
+.tick line{
+	opacity: 0.2;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: grey;
+	stroke-width: 1;
+	shape-rendering: crispEdges;
+}
+
+.axis{
+	fill: #eaeaea;
+}
+
+.title{
+	fill:white;
+}
+
+.graphS {
+	min-height:30vh !important;    
+}
+
+.graphL {
+	min-height:50vh !important;    
+}
+
+.area {
+  fill: url(#temperature-gradient);
+  stroke-width: 0px;
+}
