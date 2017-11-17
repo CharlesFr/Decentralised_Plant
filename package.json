@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "csv": "^2.0.0",
+    "d3-time-format": "^2.1.0",
     "fast-csv": "^2.4.1",
     "johnny-five": "^0.11.7"
   }
