@@ -1,5 +1,5 @@
 
-body { 
+body {
 	font: 12px Arial;
 }
 
@@ -34,7 +34,8 @@ path {
 }
 
 .graphS {
-	min-height:30vh !important;
+	min-height:20vh !important;
+	min-width: 30vw;
 }
 
 .graphL {
@@ -44,4 +45,9 @@ path {
 .area {
   fill: url(#temperature-gradient);
   stroke-width: 0px;
+}
+
+.modal-content {
+	background: #1f1d22;
+
 }

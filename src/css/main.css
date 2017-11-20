@@ -23,6 +23,16 @@
 		display: block;
 	}
 
+	/*MODAL CSS*/
+	.modal-content {
+		background: #1f1d22;
+		text-align: center;
+
+	}
+  .modal-footer {
+
+		text-align: center;
+	}
   @font-face {
     font-family: "labFont";
     src: url("LabMedium.ttf") format('truetype');

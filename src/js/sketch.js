@@ -45,7 +45,7 @@ function drawLeaves(numberOf, plantID) {
   fill(255);
   textSize(25);
   textFont(myFont);
-  text("PLANT " + plantID.toString() + " / Mindy Menthol", 0, -30);
+  text("PLANT " + plantID.toString(), 0, -30);
   var rows = 8;
   var cols = 5;
   var total = rows * cols;

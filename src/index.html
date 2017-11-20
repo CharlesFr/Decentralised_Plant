@@ -36,34 +36,34 @@
         <hr style="width: 50%; margin: -0.02vw 0 0 0;"></hr>
       </div>
 
-      <div id="plant" class="col-sm-5" style="background: transparent; height: 80vh;">
-
+      <div id="plant" class="col-sm-6" style="background: transparent; height: 80vh;">
+        <button type="button" data-toggle="modal" data-target="#myModal">Harvest</button>
 
       </div>
-      <div id="graphs" class="col-sm-6" style="background: transparent; height: 40vh;">
+      <div id="graphs" class="col-sm-5" style="background: transparent; height: 40vh;">
         <div class="row">
-            <div class="col-sm-6 graphXS" style="background-color:transparent">
+          <div class="col-sm-6 graphXS" style="background-color:transparent">
 
-              <h3> MINT-COIN </h3>
+            <h3> MINT-COIN </h3>
 
-              <h1 style="font-family: labFont;  font-size: 500%;"> 157</h1>
+            <h1 style="font-family: labFont;  font-size: 500%;"> 157</h1>
 
-            </div>
-            <div class="col-sm-6 graphXS" style="background-color:transparent">
+          </div>
+          <div class="col-sm-6 graphXS" style="background-color:transparent">
 
-              <h3> Total Leaves </h3>
-              <h1 style="font-family: labFont; font-size: 500%;"> 17</h1>
+            <h3> Total Leaves </h3>
+            <h1 style="font-family: labFont; font-size: 500%;"> 17</h1>
 
 
-            </div>
+          </div>
         </div>
-            <div class="row">
-                <div class="col-sm-12 graphS" style="background-color:transparent" id="graph1"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 graphS" style="background-color:transparent;" id="graph2"></div>
-                <div class="col-sm-12 graphS" style="background-color:transparent;" id="graph3"></div>
-            </div>
+        <div class="row">
+          <div class="col-sm-12 graphS" style="background-color:transparent" id="graph1"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 graphS" style="background-color:transparent;" id="graph2"></div>
+          <div class="col-sm-6 graphS" style="background-color:transparent;" id="graph3"></div>
+        </div>
 
         <script type="text/javascript">
           var chart1 = new Chart("data.csv", "graph1", "Mint-Coin Price");
@@ -77,20 +77,55 @@
     </div>
   </div>
 
-  <div id="chartTemplate" style="display: none;">
+  <!-- Modal -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog">
 
-  </div>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 style="font-family: labFont; text-align: center;" class="modal-title">You just took a leaf</h1>
+        </div>
+        <div style="text-align: center;" class="modal-body">
+          <h3>How many leaves did you take?</h3>
+        </div class="container">
+        <div class="row">
+          <div class="col-sm-2 col-sm-offset-3" style="">
+            <button type="button">+</button>
+          </div>
+          <div class="col-sm-2" style="">
+            <h1 style="font-family: labFont; font-size: 300%; color: green;"> 17</h1>
+          </div>
+          <div class="col-sm-2" style="">
+            <button type="button">-</button>
+          </div>
+        </div>
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.sound.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/web3.min.js"></script>
-  <script src="js/truffle-contract.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/sketch.js"></script>
+        <div>
+          <div class="modal-footer">
+            <button type="button" class="btn mr-auto">Submit</button>
+
+            <button type="button" class="btn mr-auto" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="chartTemplate" style="display: none;">
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.sound.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/sketch.js"></script>
 
 </html>
