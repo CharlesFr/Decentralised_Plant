@@ -83,6 +83,8 @@ App = {
       <td>" + status[3] + "</td></tr>";
       $("table tbody").append(markup);
 
+      $("mintCoin").text(status[1]);
+
 
     }).catch(function(err) {
       console.log(err.message);

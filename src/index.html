@@ -33,32 +33,43 @@
       <div class="col-xs-6 col-sm-10" style="background: transparent;">
         <h3 class="text-left" style="margin: 5vw 0 -5vw 0;">MP-NE</h3>
         <h3 class="text-left" style="margin: 5vw 0 0 0;">MINT PLANT NETWORK EXCHANGE</h3>
-        <hr style="width: 50%; margin: -0.02vw 0 0 0;"></hr>
+        <hr style="width: 40%; margin: -0.02vw 0 0 0;"></hr>
       </div>
 
-      <div id="plant" class="col-sm-6" style="background: transparent; height: 80vh;">
-        <button type="button" data-toggle="modal" data-target="#myModal">Harvest</button>
+      <div id="plant" class="col-sm-4 col-sm-pull-1" style="background: transparent; height: 80vh; text-align: center">
+        <!-- <button type="button" data-toggle="modal" data-target="#myModal">Harvest</button> -->
 
       </div>
-      <div id="graphs" class="col-sm-5" style="background: transparent; height: 40vh;">
+
+      <div id='numbers' class="col-sm-2" style="background: transparent;">
+        <div class="row" style="height:200px">
+          <div class="col-xs-12 col-md-12 hidden-sm">1</div>
+        </div>
         <div class="row">
-          <div class="col-sm-6 graphXS" style="background-color:transparent">
+          <div class="col-sm-10 col-sm-push-2 " style="background-color:transparent">
 
-            <h3> MINT-COIN </h3>
+            <h2> MINT-COIN </h2>
 
-            <h1 style="font-family: labFont;  font-size: 500%;"> 157</h1>
-
-          </div>
-          <div class="col-sm-6 graphXS" style="background-color:transparent">
-
-            <h3> Total Leaves </h3>
-            <h1 style="font-family: labFont; font-size: 500%;"> 17</h1>
-
+            <h1 id="mintCoin" style="font-family: labFont;  font-size: 500%;"> 157</h1>
 
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12 graphS" style="background-color:transparent" id="graph1"></div>
+
+          <div class="col-sm-10 col-sm-push-2" style="background-color:transparent">
+
+            <h2> Total Leaves </h2>
+            <h1 id="totalLeaves" style="font-family: labFont; font-size: 500%;"> 17</h1>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div id="graphs" class="col-sm-5" style="background: transparent; height: 40vh;">
+
+        <div class="row">
+          <div class="col-sm-6 graphS" style="background-color:transparent" id="graph1"></div>
         </div>
         <div class="row">
           <div class="col-sm-6 graphS" style="background-color:transparent;" id="graph2"></div>
@@ -105,7 +116,7 @@
           <div class="modal-footer">
             <button type="button" class="btn mr-auto">Submit</button>
 
-            <button type="button" class="btn mr-auto" data-dismiss="modal">Close</button>
+            <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
           </div>
         </div>
 
