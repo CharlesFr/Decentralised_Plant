@@ -9,6 +9,7 @@
   <title>MINT PLANT NETWORK EXCHANGE</title>
 
   <!-- Bootstrap -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/Chart.css">
@@ -36,21 +37,21 @@
         <hr style="width: 40%; margin: -0.02vw 0 0 0;"></hr>
       </div>
 
-      <div id="plant" class="col-sm-4 col-sm-pull-1" style="background: transparent; height: 80vh; text-align: center">
+      <div id="plant" class="col-sm-5 col-sm-pull-1" style="background: red; height: 80vh; text-align: center">
         <!-- <button type="button" data-toggle="modal" data-target="#myModal">Harvest</button> -->
 
       </div>
 
-      <div id='numbers' class="col-sm-2" style="background: transparent;">
+      <div id='numbers' class="col-sm-1" style="background: transparent;">
         <div class="row" style="height:200px">
           <div class="col-xs-12 col-md-12 hidden-sm">1</div>
         </div>
         <div class="row">
           <div class="col-sm-10 col-sm-push-2 " style="background-color:transparent">
 
-            <h2> MINT-COIN </h2>
+            <h3> MINT-COIN </h3>
 
-            <h1 id="mintCoin" style="font-family: labFont;  font-size: 500%;"> 157</h1>
+            <h2 id="mintCoin" style="font-family: labFont;  font-size: 500%;"> 157</h2>
 
           </div>
         </div>
@@ -58,8 +59,8 @@
 
           <div class="col-sm-10 col-sm-push-2" style="background-color:transparent">
 
-            <h2> Total Leaves </h2>
-            <h1 id="totalLeaves" style="font-family: labFont; font-size: 500%;"> 17</h1>
+            <h3> Total Leaves </h3>
+            <h2 id="totalLeaves" style="font-family: labFont; font-size: 500%;"> 17</h2>
 
 
           </div>
@@ -102,19 +103,36 @@
         </div class="container">
         <div class="row">
           <div class="col-sm-2 col-sm-offset-3" style="">
-            <button type="button">+</button>
+            <button id="minus" type="button">-</button>
           </div>
           <div class="col-sm-2" style="">
-            <h1 style="font-family: labFont; font-size: 300%; color: green;"> 17</h1>
+            <h1 id="leavesNumberEntry" style="font-family: labFont; font-size: 300%; color: green;">1</h1>
           </div>
           <div class="col-sm-2" style="">
-            <button type="button">-</button>
+            <button id="plus" type="button">+</button>
           </div>
         </div>
 
+        <script>
+          console.log("Script");
+          // Increase the counter
+          $('#plus').click(function() {
+            $('#leavesNumberEntry').html(function(i, val) {
+              return parseInt(val) + 1
+            });
+          });
+          // decrease the counter
+          $('#minus').click(function() {
+            $('#leavesNumberEntry').html(function(i, val) {
+              return Math.max(parseInt(val) - 1, 0)
+            });
+          });
+
+        </script>
+
         <div>
           <div class="modal-footer">
-            <button type="button" class="btn mr-auto">Submit</button>
+            <button type="button" id="submitButton" class="btn mr-auto" data-dismiss="modal">Submit</button>
 
             <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
           </div>
@@ -128,7 +146,6 @@
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.sound.min.js"></script>
@@ -137,6 +154,8 @@
     <script src="js/web3.min.js"></script>
     <script src="js/truffle-contract.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/sketch.js"></script>
+    <!-- <script src="js/sketch.js"></script> -->
+    <script src="js/Plant.js"></script>
+    <script src="js/Transformer.js"></script>
 
 </html>

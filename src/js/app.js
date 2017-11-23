@@ -46,9 +46,11 @@ App = {
   bindEvents: function() {
     // $(document).on('click', '.btn-submit', App.handlePicking);
     $(document).ready(function() {
-        $('.btn-submit').click(function(event) {
-          var term = $('#search').val();
-          App.handlePicking(term);
+        $('#submitButton').click(function(event) {
+          $('#leavesNumberEntry').html(function(i, val) {
+            //console.log("the value is:", val);
+            return App.handlePicking(parseInt(val));
+          });
       });
     })
   },
@@ -74,6 +76,9 @@ App = {
       for(i = 0; i < stat.length;i++){
         status.push(stat[i].c);
       }
+      console.log(status);
+      $('#mintCoin').text(status[1]);
+      $('#totalLeaves').text(status[0]);
 
       // Update the UI below
 
@@ -94,35 +99,28 @@ App = {
 
   handlePicking: function(leafNum) {
 
-    console.log("Handling leaf picking...")
+    console.log("About to pick", leafNum, "leaves.")
+    tree.removeLeaves(parseInt(leafNum));
 
-    if(isNaN(leafNum)){
-      alert("\"" + String(leafNum) + "\" is not a number, please try again.")
-    } else {
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+      console.log(error);
+      }
 
+      var account = accounts[0];
+      console.log(account);
 
-      web3.eth.getAccounts(function(error, accounts) {
-        if (error) {
-        console.log(error);
-        }
-
-        var account = accounts[0];
-        console.log(account);
-
-        App.contracts.Plant.deployed().then(function(instance) {
-          plantInstance = instance;
-
-          // Execute leaf picking function
-          return plantInstance.leafPicked(parseInt(leafNum), {from: account});
-        }).then(function(result) {
-          console.log(result);
-          return App.SetContractValues();
-        }).catch(function(err) {
-          console.log(err.message);
-        });
+      App.contracts.Plant.deployed().then(function(instance) {
+        plantInstance = instance;
+        // Execute leaf picking function
+        return plantInstance.leafPicked(parseInt(leafNum), {from: account});
+      }).then(function(result) {
+        console.log(result);
+        return App.SetContractValues();
+      }).catch(function(err) {
+        console.log(err.message);
       });
-
-    }
+    });
 
   }
 
