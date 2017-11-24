@@ -8,8 +8,10 @@
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>MINT PLANT NETWORK EXCHANGE</title>
 
-  <!-- Bootstrap -->
+  <!-- Bootstrap + Slider + JQuery + D3 + P5 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/Chart.css">
@@ -37,17 +39,17 @@
         <hr style="width: 40%; margin: -0.02vw 0 0 0;"></hr>
       </div>
 
-      <div id="plant" class="col-sm-5 col-sm-pull-1" style="background: red; height: 80vh; text-align: center">
+      <div id="plant" class="col-sm-5 col-sm-pull-1" style="background: transparent; height: 80vh; text-align: center">
         <!-- <button type="button" data-toggle="modal" data-target="#myModal">Harvest</button> -->
 
       </div>
 
-      <div id='numbers' class="col-sm-1" style="background: transparent;">
-        <div class="row" style="height:200px">
+      <div id='numbers' class="col-sm-1" style="background: transparent; border-left: 1px solid white !important;">
+        <!-- <div class="row" style="height:200px">
           <div class="col-xs-12 col-md-12 hidden-sm">1</div>
-        </div>
+        </div> -->
         <div class="row">
-          <div class="col-sm-10 col-sm-push-2 " style="background-color:transparent">
+          <div class="col-sm-10 t-20" style="background-color:transparent; padding-top: 5vh;">
 
             <h3> MINT-COIN </h3>
 
@@ -57,7 +59,7 @@
         </div>
         <div class="row">
 
-          <div class="col-sm-10 col-sm-push-2" style="background-color:transparent">
+          <div class="col-sm-10" style="background-color:transparent">
 
             <h3> Total Leaves </h3>
             <h2 id="totalLeaves" style="font-family: labFont; font-size: 500%;"> 17</h2>
@@ -67,7 +69,7 @@
         </div>
       </div>
 
-      <div id="graphs" class="col-sm-5" style="background: transparent; height: 40vh;">
+      <div id="graphs" class="col-sm-5 text-center" style="background: transparent; height: 40vh;">
 
         <div class="row">
           <div class="col-sm-6 graphS" style="background-color:transparent" id="graph1"></div>
@@ -81,15 +83,19 @@
           var chart1 = new Chart("data.csv", "graph1", "Mint-Coin Price");
           var chart2 = new Chart("data.csv", "graph2", "Moisture Level");
           var chart3 = new Chart("data.csv", "graph3", "Rate of Harvest");
-
-          chart1.setLabelX("Time");
-          chart1.setLabelY("Price (ETH)");
+          // chart1.setLabelX("Time");
+          // chart1.setLabelY("Price (ETH)");
         </script>
+
+        <div class="btn-group" style="padding-top:40px;">
+          <button type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray">Get Transactions</button>
+          <button type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray" data-toggle="modal" data-target="#etherModal">Send Ether</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal for leaf picking-->
   <div id="myModal" class="modal fade">
     <div class="modal-dialog">
 
@@ -114,7 +120,6 @@
         </div>
 
         <script>
-          console.log("Script");
           // Increase the counter
           $('#plus').click(function() {
             $('#leavesNumberEntry').html(function(i, val) {
@@ -127,12 +132,11 @@
               return Math.max(parseInt(val) - 1, 0)
             });
           });
-
         </script>
 
         <div>
           <div class="modal-footer">
-            <button type="button" id="submitButton" class="btn mr-auto" data-dismiss="modal">Submit</button>
+            <button type="button" id="submitButtonLeafPicking" class="btn mr-auto" data-dismiss="modal">Submit</button>
 
             <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
           </div>
@@ -140,22 +144,57 @@
 
       </div>
     </div>
+  </div>
 
-    <div id="chartTemplate" style="display: none;">
+  <!-- Modal for Sending Ether-->
+  <div id="etherModal" class="modal fade">
+    <div class="modal-dialog">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 style="font-family: labFont; text-align: center;" class="modal-title">You just took a leaf</h1>
+        </div>
+        <div style="text-align: center;" class="modal-body">
+          <h3>How many leaves did you take?</h3>
+        </div class="container">
+        <div class="row" style="padding-bottom: 15px;">
+          <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="1000" data-slider-step="1" data-slider-value="1" />
+          <p style="padding-top:20px">Value in Ether: <span id="ETHValue" style="font-size:15px; font-weight:bold;">0</span></p>
+        </div>
+
+        <script>
+          // With JQuery
+          $('#ex1').slider({
+            formatter: function(value) {
+              $('#ETHValue').text(parseFloat(value) * 0.002420135527589545)
+              return '€' + value;
+            }
+          });
+        </script>
+
+        <div>
+          <div class="modal-footer">
+            <button type="button" id="submitButtonSendEther" class="btn mr-auto" data-dismiss="modal">Submit</button>
+            <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.sound.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script>
-    <script src="js/app.js"></script>
-    <!-- <script src="js/sketch.js"></script> -->
-    <script src="js/Plant.js"></script>
-    <script src="js/Transformer.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.sound.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+  <!-- <script src="js/sketch.js"></script> -->
+  <script src="js/Plant.js"></script>
+  <script src="js/Transformer.js"></script>
 
 </html>

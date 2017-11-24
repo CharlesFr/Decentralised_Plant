@@ -3,6 +3,7 @@ var tree, tf, xoff;
 let capture;
 let previousPixels;
 let isDetecting = true;
+let timer = 0;
 
 function setup() {
   //getWebcamDetails();
@@ -10,18 +11,15 @@ function setup() {
   var clientWidth = document.getElementById('plant').clientWidth;
   var clientHeight = document.getElementById('plant').clientHeight;
 
-  console.log(clientWidth, clientHeight);
-
-  var elt = document.getElementById("plant");
   cnv = createCanvas(clientWidth, clientHeight);
   cnv.parent('plant');
+
+  // This Object is just used to record the transformation matrix in the recursive Tree compute function for later manipulation
   tf = new Transformer();
-  branches = [];
-  leaves = [];
   tree = new Tree({
     x: width * .5,
     y: height * 0.7
-  }, 100);
+  }, 150);
   tree.compute();
   xoff = .0;
 
@@ -29,24 +27,21 @@ function setup() {
     audio: false,
     video: {
       optional: [{
-        sourceId: 'a8d2153b58f95afaeb2a7c293d4a8d6501ccc5f91157c8cd086dcf6acada66ed'
+        sourceId: 'a8d2153b58f95afaeb2a7c293d4a8d6501ccc5f91157c8cd086dcf6acada66ed' // This will change
       }]
     }
   });
   capture.size(320, 240);
   capture.hide();
 
+  // We wait x seconds before detecting otherwise modal freezes - leaving the time for the plant to stop moving.
   document.getElementById("closeModal").addEventListener("click", function() {
-    isDetecting = true;
+    timer = millis();
   });
 }
 
 function draw() {
-  noStroke();
-  textAlign(CENTER);
-  //fill(28, 31, 34);
   background(28, 31, 34);
-  //rect(0,0,width, height*0.7)
   tree.draw();
   detectMovement();
 }
@@ -85,21 +80,26 @@ function detectMovement() {
           pixels[i++] = output;
           pixels[i++] = output;
           pixels[i++] = output;
-          // also try this:
-          // pixels[i++] = rdiff;
-          // pixels[i++] = gdiff;
-          // pixels[i++] = bdiff;
           i++; // skip alpha
         }
       }
     }
   }
-  // need this because sometimes the frames are repeated
-  if (total > 8000 && isDetecting && millis() > 15000) { // threshold gets triggered on initialisation -> wait 15sec
+
+  if (total > 8000 && isDetecting && !$('#myModal').hasClass('in') && millis() > 10000) { // threshold gets triggered on initialisation -> wait 15sec
     $('#myModal').modal('show');
     console.log("The threshold that triggered it was:", total);
     isDetecting = false;
+    timer = millis();
+    console.log("Opening Modal:", isDetecting, millis() - timer, timer)
   }
+
+  //We wait x Seconds after modal is closed to start detecting again (The plant keeps moving.)
+  if (!isDetecting && millis() - timer > 3000 && !$('#myModal').hasClass('in')) {
+    isDetecting = true;
+    console.log("Two seconds passed:", isDetecting, millis() - timer, timer)
+  }
+  // need this because sometimes the frames are repeated
   if (total > 0) {
     capture.updatePixels();
   }
@@ -174,15 +174,10 @@ class Tree {
     // The length of the branches
     this.baseBranchLength = this.rootPos.x * .4;
 
-    this.levels = 0;
-
     this.leaves = [];
     this.leavesAttr = [];
-
     this.branches = [];
-
     this.leavesNum = _leaves;
-
     this.leavesRemove = [];
   }
 
@@ -289,7 +284,6 @@ class Tree {
       d: distance
     });
     tf.translate(0, -distance);
-    this.levels++;
   };
 
   back(distance) {

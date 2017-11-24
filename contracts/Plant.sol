@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 contract Plant {
-    
+
     address public creator;
 
 	// initial Variables
@@ -15,7 +15,7 @@ contract Plant {
 
 	// Modififer to check if there's enough money for a new plant without wasting gas
 	modifier onlyIfEnoughMoney() {
-		require(finney_balance > plant_price); 
+		require(finney_balance > plant_price);
 		_;
 	}
 
@@ -24,7 +24,7 @@ contract Plant {
 		require(msg.sender == creator);
 		_;
 	}
-	
+
 	// you need to send some money to initialise the contract
 	modifier enoughToInitialise() {
 		require(msg.value > 0);
@@ -43,12 +43,12 @@ contract Plant {
 	}
 
 	function buy_new_plant() private onlyIfEnoughMoney {
-	    
+
 	    uint number_plants_to_buy = finney_balance / plant_price;
-	    
+
 		total_supply += (initial_coins*number_plants_to_buy);
 		finney_balance -= (plant_price*number_plants_to_buy);
-		number_of_plants += number_plants_to_buy; 
+		number_of_plants += number_plants_to_buy;
 		plantWasPurchased(finney_balance, total_supply, number_of_plants);
 	}
 
@@ -65,7 +65,7 @@ contract Plant {
 	function getStatus() returns (uint leaves, uint outstandingTokens, uint balance, uint numberOfPlants){
 		return(remaining_leaves, total_supply, finney_balance, number_of_plants);
 	}
-	
+
 	function leafPicked(uint numPicked) public returns (uint, uint){
 	    require(numPicked < remaining_leaves);
 	    uint number_before_picking = remaining_leaves;
@@ -73,8 +73,8 @@ contract Plant {
 	    leafWasPicked(remaining_leaves, numPicked);
 	    return (remaining_leaves, number_before_picking);
 	}
-    
-    event leafWasPicked(uint leavesLeft, uint numberTaken);
+
+  event leafWasPicked(uint leavesLeft, uint numberTaken);
 	event plantWasPurchased(uint newBalance, uint newTotalSupply, uint newPlantNumber); // Event
 	event depositedFunds(uint amount, uint newBalance); // Event
 

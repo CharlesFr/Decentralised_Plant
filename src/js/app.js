@@ -46,11 +46,21 @@ App = {
   bindEvents: function() {
     // $(document).on('click', '.btn-submit', App.handlePicking);
     $(document).ready(function() {
-        $('#submitButton').click(function(event) {
-          $('#leavesNumberEntry').html(function(i, val) {
-            //console.log("the value is:", val);
-            return App.handlePicking(parseInt(val));
-          });
+
+      // Listener for leaf picking
+      $('#submitButtonLeafPicking').click(function(event) {
+        $('#leavesNumberEntry').html(function(i, val) {
+          //console.log("the value is:", val);
+          return App.handlePicking(parseInt(val));
+        });
+      });
+
+      // Listener for sending ether
+      $('#submitButtonSendEther').click(function(event) {
+        $('#ETHValue').html(function(i, val) {
+          console.log("Sending this amount of Ether:", val);
+          return App.sendEther(parseFloat(val));
+        });
       });
     })
   },
@@ -73,7 +83,7 @@ App = {
       // 2 -> finney_balance
       // 3 -> number_of_plants
 
-      for(i = 0; i < stat.length;i++){
+      for (i = 0; i < stat.length; i++) {
         status.push(stat[i].c);
       }
       console.log(status);
@@ -104,7 +114,7 @@ App = {
 
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
-      console.log(error);
+        console.log(error);
       }
 
       var account = accounts[0];
@@ -113,7 +123,9 @@ App = {
       App.contracts.Plant.deployed().then(function(instance) {
         plantInstance = instance;
         // Execute leaf picking function
-        return plantInstance.leafPicked(parseInt(leafNum), {from: account});
+        return plantInstance.leafPicked(parseInt(leafNum), {
+          from: account
+        });
       }).then(function(result) {
         console.log(result);
         return App.SetContractValues();
@@ -121,9 +133,35 @@ App = {
         console.log(err.message);
       });
     });
+  },
 
+  sendEther: function(_value) {
+
+    // Enter details to send transaction;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+      console.log(account);
+
+      App.contracts.Plant.deployed().then(function(instance) {
+        plantInstance = instance;
+        // Execute leaf picking function
+        return plantInstance.sendEther({
+          from: account,
+          gas: ,
+          value: _value
+        });
+      }).then(function(result) {
+        console.log(result);
+        return App.SetContractValues();
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
   }
-
 };
 
 $(function() {
