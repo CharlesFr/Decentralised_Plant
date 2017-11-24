@@ -18,7 +18,6 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script type="text/javascript" src="./js/multiline.js"></script>
 
-
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -88,7 +87,7 @@
         </script>
 
         <div class="btn-group" style="padding-top:40px;">
-          <button type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray">Get Transactions</button>
+          <button id="transactionModalId" type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray" data-toggle="modal" data-target="#transactionsModal">Get Transactions</button>
           <button type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray" data-toggle="modal" data-target="#etherModal">Send Ether</button>
         </div>
       </div>
@@ -176,6 +175,42 @@
         <div>
           <div class="modal-footer">
             <button type="button" id="submitButtonSendEther" class="btn mr-auto" data-dismiss="modal">Submit</button>
+            <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Transactions-->
+  <div id="transactionsModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 style="font-family: labFont; text-align: center;" class="modal-title">Blockchain Transaction viewer</h1>
+        </div>
+        <div style="text-align: center;" class="modal-body">
+          <h3>All MintCoin transactions are available for anyone to see.</h3>
+        </div class="container">
+        <div class="row" style="padding-bottom: 15px; text">
+          <table class="table col-md-4">
+            <thead>
+              <tr>
+                <th>Block number</th>
+                <th>From</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div class="modal-footer">
             <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
           </div>
         </div>

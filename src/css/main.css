@@ -8,6 +8,17 @@
 
 /* Reset */
 
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 #numbers {
   border-left: 1px white !important;
 }

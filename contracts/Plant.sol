@@ -58,6 +58,12 @@ contract Plant {
 		depositedFunds(msg.value, finney_balance);
 	}
 
+  function receiveEther() payable public {
+    finney_balance += msg.value/1000000000000000;
+    //buy_new_plant();
+    depositedFunds(msg.value, finney_balance);
+  }
+
 	function terminate() private onlyCreator{
 		selfdestruct(creator);
 	}
