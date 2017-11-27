@@ -1,3 +1,18 @@
+// Functions to simplify interfacing ith web3 by using Promises
+
+function getAccounts(){
+    return new Promise(function(resolve, reject) {
+        web3.eth.getAccounts(function(err, accounts) {
+            if (err) {
+                console.log("getAccounts::error", err);
+              reject(error);
+            }
+
+            resolve(accounts);
+        });
+    });
+}
+
 function getBlockNumber() {
     return new Promise(function(resolve, reject){
         web3.eth.getBlockNumber(function(err, number) {

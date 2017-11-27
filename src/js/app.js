@@ -99,8 +99,6 @@ App = {
 
       // Update the UI below
 
-
-
       $("mintCoin").text(status[1]);
 
 
@@ -115,105 +113,89 @@ App = {
     console.log("About to pick", leafNum, "leaves.")
     tree.removeLeaves(parseInt(leafNum));
 
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
+    getAccounts().then(function(accounts) {
       var account = accounts[0];
       console.log(account);
 
-      App.contracts.Plant.deployed().then(function(instance) {
+      return App.contracts.Plant.deployed().then(function(instance) {
         plantInstance = instance;
         // Execute leaf picking function
         return plantInstance.leafPicked(parseInt(leafNum), {
           from: account
         });
-      }).then(function(result) {
-        console.log(result);
-        return App.SetContractValues();
-      }).catch(function(err) {
-        console.log(err.message);
       });
+    }).then(function(result) {
+      console.log(result);
+      return App.SetContractValues();
+    }).catch(function(err) {
+      console.log(err.message);
     });
   },
 
   getTransactions: function() {
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
+    return getAccounts().then(function(accounts){
       // var account = accounts[0];
       // console.log(account);
+      return App.contracts.Plant.deployed();
+    }).then(function(instance) {
+      return getBlockNumber();
+    }).then(function(number){
+      var blockPromises = [];
 
-      App.contracts.Plant.deployed().then(function(instance) {
-        // Execute leaf picking function
-        return getBlockNumber().then(function(number){
-          var blockPromises = [];
+      for (i = number; (i >= 0 && i > (number - 5)); i--) {
+        blockPromises.push(getBlock(i));
+      }
 
-          for (i = number; (i >= 0 && i > (number - 5)); i--) {
-            blockPromises.push(getBlock(i));
-          }
+      return Promise.all(blockPromises);
+    }).then(function(blocks){
+      var transactionPromises = [];
+      for (var b = 0; b < blocks.length; b++) {
+        var block = blocks[b];
+        var transactions = block.transactions;
 
-          return Promise.all(blockPromises);
-        }).then(function(blocks){
-          var transactionPromises = [];
-          for (var b = 0; b < blocks.length; b++) {
-            var block = blocks[b];
-            var transactions = block.transactions;
+        for (var j = 0; j < transactions.length; j++) {
+          var transactionHash = transactions[j];
+          transactionPromises.push(getTransaction(transactionHash));
+        }
+      }
 
-            for (var j = 0; j < transactions.length; j++) {
-              var transactionHash = transactions[j];
-              transactionPromises.push(getTransaction(transactionHash));
-            }
-          }
+      return Promise.all(transactionPromises); 
+    }).then(function(result) {
+      var markup = "";
+      for (var i = 0; i < result.length; i++) {
+        var transaction = result[i];
+        if(transaction){
+          markup += "<tr><td>" + transaction.blockNumber + "</td>\
+          <td>" + transaction.from + "</td>\
+          <td>" + transaction.value.toString(10) + "</td></tr>";
+        }
+      }
 
-          return Promise.all(transactionPromises); 
-        }).then(function(result) {
-          var markup = "";
-          for (var i = 0; i < result.length; i++) {
-            var transaction = result[i];
-            if(transaction){
-              markup += "<tr><td>" + transaction.blockNumber + "</td>\
-              <td>" + transaction.from + "</td>\
-              <td>" + transaction.value.toString(10) + "</td></tr>";
-            }
-          }
-
-          $("table tbody").html(markup);
-        }).catch(function(err) {
-          console.log(err.message);
-        });
-      });
+      $("table tbody").html(markup);
+    }).catch(function(err) {
+      console.log(err.message);
     });
   },
 
   sendEther: function(_value) {
-
     // Enter details to send transaction;
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
+    return getAccounts().then(function(accounts){
       var account = accounts[0];
       console.log(account);
-
-      App.contracts.Plant.deployed().then(function(instance) {
-        plantInstance = instance;
-        // Execute leaf picking function
-        plantInstance.send(web3.toWei(_value, "ether"));
-        // return plantInstance.sendEther({
-        //   from: account,
-        //   value: _value
-        // });
-      }).then(function(result) {
-        console.log(result);
-        return App.SetContractValues();
-      }).catch(function(err) {
-        console.log(err.message);
-      });
+      return App.contracts.Plant.deployed();
+    }).then(function(instance) {
+      plantInstance = instance;
+      // Execute leaf picking function
+      return plantInstance.send(web3.toWei(_value, "ether"));
+      // return plantInstance.sendEther({
+      //   from: account,
+      //   value: _value
+      // });
+    }).then(function(result) {
+      console.log(result);
+      return App.SetContractValues();
+    }).catch(function(err) {
+      console.log(err.message);
     });
   },
 };
