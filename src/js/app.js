@@ -138,33 +138,6 @@ App = {
     });
   },
 
-  sendEther: function(_value) {
-
-    // Enter details to send transaction;
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
-      var account = accounts[1];
-      console.log(account);
-
-      App.contracts.Plant.deployed().then(function(instance) {
-        plantInstance = instance;
-        // Execute leaf picking function
-        return plantInstance.receiveEther({
-          from: account,
-          value: web3.toWei(_value)
-        });
-      }).then(function(result) {
-        console.log(result);
-        return App.SetContractValues();
-      }).catch(function(err) {
-        console.log(err.message);
-      });
-    });
-  },
-
   getTransactions: function() {
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
@@ -237,7 +210,6 @@ App = {
   sendEther: function(_value) {
 
     // Enter details to send transaction;
-
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
