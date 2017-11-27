@@ -149,60 +149,42 @@ App = {
 
       App.contracts.Plant.deployed().then(function(instance) {
         // Execute leaf picking function
-        return new Promise(function(resolve, reject) {
-          var transactionPromises = [];
+        return getBlockNumber().then(function(number){
           var blockPromises = [];
-          web3.eth.getBlockNumber(function(err, number) {
-            if (err) {
-              reject(err)
-            }
-            for (i = number;
-              (i >= 0 && i > (number - 5)); i--) {
-              blockPromises.push(new Promise(function(resolve, reject) {
-                web3.eth.getBlock(i, function(err, result) {
-                  if (err) {
-                    reject(err)
-                  }
-                  var transactions = result.transactions;
-                  for (var j = 0; j < transactions.length; j++) {
-                    var transactionHash = transactions[j];
-                    transactionPromises.push(new Promise(function(resolve, reject) {
-                      web3.eth.getTransaction(transactionHash, function(err, result) {
-                        if (err) {
-                          reject(err)
-                        }
-                        resolve(result);
-                      })
-                    }))
-                    resolve();
-                  }
-                  // console.log(result);
-                });
-              }));
-            }
-            Promise.all(blockPromises).then(function() {
-                return Promise.all(transactionPromises).then(function(results) {
-                  console.log(results);
-                  resolve(results);
-                });
-              })
-              .catch(function(err) {
-                reject(err);
-              });
-          });
-        });
-      }).then(function(result) {
-        console.log(result[0]);
-        for (var i = 0; i < result.length; i++) {
-          var transaction = result[i];
-          var markup = "<tr><td>" + transaction.blockNumber + "</td>\
-            <td>" + transaction.from + "</td>\
-            <td>" + transaction.value.toString(10) + "</td></tr>";
-        }
 
-        $("table tbody").append(markup);
-      }).catch(function(err) {
-        console.log(err.message);
+          for (i = number; (i >= 0 && i > (number - 5)); i--) {
+            blockPromises.push(getBlock(i));
+          }
+
+          return Promise.all(blockPromises);
+        }).then(function(blocks){
+          var transactionPromises = [];
+          for (var b = 0; b < blocks.length; b++) {
+            var block = blocks[b];
+            var transactions = block.transactions;
+
+            for (var j = 0; j < transactions.length; j++) {
+              var transactionHash = transactions[j];
+              transactionPromises.push(getTransaction(transactionHash));
+            }
+          }
+
+          return Promise.all(transactionPromises); 
+        }).then(function(result) {
+          var markup = "";
+          for (var i = 0; i < result.length; i++) {
+            var transaction = result[i];
+            if(transaction){
+              markup += "<tr><td>" + transaction.blockNumber + "</td>\
+              <td>" + transaction.from + "</td>\
+              <td>" + transaction.value.toString(10) + "</td></tr>";
+            }
+          }
+
+          $("table tbody").html(markup);
+        }).catch(function(err) {
+          console.log(err.message);
+        });
       });
     });
   },
