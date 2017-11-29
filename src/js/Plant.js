@@ -197,7 +197,7 @@ class Tree {
           x: this.leaves[i].x,
           y: this.leaves[i].y,
           align: this.leaves[i].r,
-          s: random(0.06, 0.2), // This is the leaf size variation
+          s: random(0.08, 0.22), // This is the leaf size variation
           offset: random(0, -this.leaves[i].d), // This is the offset position from the stem
           r: random(HALF_PI) - QUARTER_PI // Then we add a random starting rotation
         })

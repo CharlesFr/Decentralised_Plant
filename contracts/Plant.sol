@@ -44,7 +44,7 @@ contract Plant {
 
 	function buy_new_plant() private onlyIfEnoughMoney {
 
-	    uint number_plants_to_buy = finney_balance / plant_price;
+	  uint number_plants_to_buy = finney_balance / plant_price;
 
 		total_supply += (initial_coins*number_plants_to_buy);
 		finney_balance -= (plant_price*number_plants_to_buy);
@@ -72,16 +72,16 @@ contract Plant {
 		return(remaining_leaves, total_supply, finney_balance, number_of_plants);
 	}
 
-	function leafPicked(uint numPicked) public returns (uint, uint){
+	function leafPicked(uint numPicked) public payable{
 	    require(numPicked < remaining_leaves);
+      finney_balance += msg.value/1000000000000000;
 	    uint number_before_picking = remaining_leaves;
 	    remaining_leaves -= numPicked;
-	    leafWasPicked(remaining_leaves, numPicked);
-	    return (remaining_leaves, number_before_picking);
+      pickedEvent(msg.sender, numPicked, now);
 	}
 
-  event leafWasPicked(uint leavesLeft, uint numberTaken);
 	event plantWasPurchased(uint newBalance, uint newTotalSupply, uint newPlantNumber); // Event
 	event depositedFunds(uint amount, uint newBalance); // Event
+  event pickedEvent(address harvester, uint leafTaken, uint _time);
 
 }

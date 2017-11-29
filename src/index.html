@@ -87,8 +87,9 @@
         </script>
 
         <div class="btn-group" style="padding-top:40px;">
-          <button id="transactionModalId" type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray" data-toggle="modal" data-target="#transactionsModal">Get Transactions</button>
-          <button type="button" onclick="this.blur();" class="btn btn-primary btn-sm black-background white hover-gray" data-toggle="modal" data-target="#etherModal">Send Ether</button>
+          <button id="transactionModalId" type="button" onclick="this.blur();" class="btn btn-primary btn-xs black-background white hover-gray" data-toggle="modal" data-target="#transactionsModal">See deposits</button>
+          <button id="harvestsModalId" type="button" onclick="this.blur();" class="btn btn-primary btn-xs black-background white hover-gray" data-toggle="modal" data-target="#harvestsModal">See harvests</button>
+          <button type="button" onclick="this.blur();" class="btn btn-primary btn-xs black-background white hover-gray" data-toggle="modal" data-target="#etherModal">Send Ether</button>
         </div>
       </div>
     </div>
@@ -152,10 +153,10 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h1 style="font-family: labFont; text-align: center;" class="modal-title">You just took a leaf</h1>
+          <h1 style="font-family: labFont; text-align: center;" class="modal-title">Let's increase the supply of funds.</h1>
         </div>
         <div style="text-align: center;" class="modal-body">
-          <h3>How many leaves did you take?</h3>
+          <h3>How much would you like to send?</h3>
         </div class="container">
         <div class="row" style="padding-bottom: 15px;">
           <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="1000" data-slider-step="1" data-slider-value="1" />
@@ -196,7 +197,7 @@
           <h3>All MintCoin transactions are available for anyone to see.</h3>
         </div class="container">
         <div class="row" style="padding-bottom: 15px; text">
-          <table class="table col-md-4">
+          <table class="table col-md-4 trans">
             <thead>
               <tr>
                 <th>Block number</th>
@@ -204,7 +205,7 @@
                 <th>Value</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="trans">
             </tbody>
           </table>
         </div>
@@ -217,6 +218,44 @@
 
       </div>
     </div>
+  </div>
+  </div>
+
+  <!-- Modal for Harvests-->
+  <div id="harvestsModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 style="font-family: labFont; text-align: center;" class="modal-title">Blockchain Harvests Viewer</h1>
+        </div>
+        <div style="text-align: center;" class="modal-body">
+          <h3>All leaves harvests are available for anyone to see.</h3>
+        </div class="container">
+        <div class="row" style="padding-bottom: 15px; text">
+          <table class="table col-md-4">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Harvester</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody class="harvests">
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div class="modal-footer">
+            <button type="button" id="closeModal" class="btn mr-auto" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
   </div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

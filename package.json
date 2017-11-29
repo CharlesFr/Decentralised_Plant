@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "node main.js | lite-server",
+    "dev": "node main.js |lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -20,5 +20,5 @@
     "johnny-five": "^0.11.7",
     "lite-server": "^2.3.0",
     "random-word": "^2.0.0"
-  }
+  },
 }

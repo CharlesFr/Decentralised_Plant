@@ -64,11 +64,18 @@ App = {
         });
       });
 
-      // Listener for transactions
+      // Listener for deposits
       $('#transactionModalId').click(function(event) {
         console.log('get transactions');
         return App.getTransactions();
       });
+
+      // Listener for harvests
+      $('#harvestsModalId').click(function(event) {
+        console.log('get harvests');
+        return App.getHarvests();
+      });
+
     })
   },
 
@@ -121,7 +128,8 @@ App = {
         plantInstance = instance;
         // Execute leaf picking function
         return plantInstance.leafPicked(parseInt(leafNum), {
-          from: account
+          from: account,
+          value: web3.toWei(0.01)
         });
       });
     }).then(function(result) {
@@ -133,21 +141,22 @@ App = {
   },
 
   getTransactions: function() {
-    return getAccounts().then(function(accounts){
+    return getAccounts().then(function(accounts) {
       // var account = accounts[0];
       // console.log(account);
       return App.contracts.Plant.deployed();
     }).then(function(instance) {
       return getBlockNumber();
-    }).then(function(number){
+    }).then(function(number) {
       var blockPromises = [];
 
-      for (i = number; (i >= 0 && i > (number - 5)); i--) {
+      for (i = number;
+        (i >= 0 && i > (number - 5)); i--) {
         blockPromises.push(getBlock(i));
       }
 
       return Promise.all(blockPromises);
-    }).then(function(blocks){
+    }).then(function(blocks) {
       var transactionPromises = [];
       for (var b = 0; b < blocks.length; b++) {
         var block = blocks[b];
@@ -159,19 +168,19 @@ App = {
         }
       }
 
-      return Promise.all(transactionPromises); 
+      return Promise.all(transactionPromises);
     }).then(function(result) {
       var markup = "";
       for (var i = 0; i < result.length; i++) {
         var transaction = result[i];
-        if(transaction){
+        if (transaction) {
           markup += "<tr><td>" + transaction.blockNumber + "</td>\
           <td>" + transaction.from + "</td>\
-          <td>" + transaction.value.toString(10) + "</td></tr>";
+          <td>" + web3.fromWei(transaction.value.toString(10), 'ether') + "</td></tr>";
         }
       }
 
-      $("table tbody").html(markup);
+      $("table .trans").html(markup);
     }).catch(function(err) {
       console.log(err.message);
     });
@@ -179,7 +188,7 @@ App = {
 
   sendEther: function(_value) {
     // Enter details to send transaction;
-    return getAccounts().then(function(accounts){
+    return getAccounts().then(function(accounts) {
       var account = accounts[0];
       console.log(account);
       return App.contracts.Plant.deployed();
@@ -187,17 +196,76 @@ App = {
       plantInstance = instance;
       // Execute leaf picking function
       return plantInstance.send(web3.toWei(_value, "ether"));
-      // return plantInstance.sendEther({
-      //   from: account,
-      //   value: _value
-      // });
+
     }).then(function(result) {
-      console.log(result);
+      console.log("Results:", result);
       return App.SetContractValues();
     }).catch(function(err) {
       console.log(err.message);
     });
   },
+
+  getHarvests: function() {
+
+    return App.contracts.Plant.deployed().then(instance => {
+      return instance.pickedEvent({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      });
+    }).then(events => {
+      return getEvents(events);
+    }).then(result => {
+      console.log(result[0]._time.c);
+      var markup = "";
+      for (var i = 0; i < result.length; i++) {
+        var eventLog = result[i];
+        var date = new Date(eventLog._time.c[0]);
+        if (eventLog) {
+          markup += "<tr><td>" + epochStringifyDate(date) + "</td>\
+              <td>" + eventLog.harvester + "</td>\
+              <td>" + eventLog.leafTaken + "</td></tr>";
+        }
+      }
+
+      $("table .harvests").html(markup);
+    });
+
+    // App.contracts.Plant.deployed().then(function(instance) {
+    //   let transferEvent = instance.pickedEvent({}, {
+    //     fromBlock: 0,
+    //     toBlock: 'latest'
+    //   });
+    //   return transferEvent.get((errors, logs) => {
+    //     if (errors) console.log(errors, logs);
+    //     logs.forEach(log => console.log("before", log.args))
+    //     return logs.args;
+    //   });
+    // }).then((logs) => {
+    //   console.log("after", logs);
+    //   var markup = "";
+    //   for (var i = 0; i < logs.length; i++) {
+    //     var eventLog = logs[i];
+    //     if (transaction) {
+    //       markup += "<tr><td>" + (new Date(eventLog._time)).toString() + "</td>\
+    //         <td>" + eventLog.harvester + "</td>\
+    //         <td>" + eventLog.leafTaken + "</td></tr>";
+    //     }
+    //   }
+    //
+    //   $("table .harvests").html(markup);
+    // });
+
+    // App.contracts.Plant.deployed().then(function(instance) {
+    //   return instance.allEvents({
+    //     fromBlock: 0,
+    //     toBlock: 'latest'
+    //   });
+    // }).then(function(events) {
+    //   events.watch((error, result) => {
+    //     console.log(result);
+    //   });
+    // });
+  }
 };
 
 $(function() {
@@ -205,3 +273,32 @@ $(function() {
     App.init();
   });
 });
+
+
+function epochStringifyDate(_unix) {
+  var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var today = new Date(0);
+  today.setUTCSeconds(_unix);
+  var hh = today.getHours();
+  var ms = today.getMinutes();
+  var ss = today.getSeconds();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear() - 2000;
+
+
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+
+  if (ss < 10) {
+    ss = '0' + ss
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+
+  today = hh + ":" + ms + ":" + ss + " " + dd + "/" + mm + "/" + yyyy;
+  return today;
+}
