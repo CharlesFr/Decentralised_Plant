@@ -3,13 +3,9 @@
 
 
 ![N|Solid](https://image.ibb.co/i3hKKb/man_mint_plant_05.jpg)
-[Link to Medium Article](https://medium.com/mobgen/plants-learn-to-speak-because-money-talks-291db4b116df)
-
-[logo]: https://image.ibb.co/jppzKb/MintLogo.png "Logo Title Text 2"
-
-Inline-style: 
-![alt text](https://image.ibb.co/jppzKb/MintLogo.png "Logo Title Text 1")
-
+ 
+![[alt text](http://oi64.tinypic.com/2ro6b7s.jpg "Logo Title Text 1")](https://medium.com/mobgen/plants-learn-to-speak-because-money-talks-291db4b116df)
+Click for Medium Article
 
 
 ## Synopsis:
