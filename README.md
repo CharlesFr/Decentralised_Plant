@@ -4,7 +4,7 @@
 
 ![N|Solid](https://image.ibb.co/i3hKKb/man_mint_plant_05.jpg)
 
-[![Creative Commons License](http://oi64.tinypic.com/2ro6b7s.jpg)](https://medium.com/mobgen/plants-learn-to-speak-because-money-talks-291db4b116df)
+[![Creative Commons License](http://i63.tinypic.com/34dm079.png)](https://medium.com/mobgen/plants-learn-to-speak-because-money-talks-291db4b116df)
 Click for Medium Article
 
 
