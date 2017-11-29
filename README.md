@@ -7,6 +7,10 @@
 
 [logo]: https://image.ibb.co/jppzKb/MintLogo.png "Logo Title Text 2"
 
+Inline-style: 
+![alt text](https://image.ibb.co/jppzKb/MintLogo.png "Logo Title Text 1")
+
+
 
 ## Synopsis:
 
@@ -32,7 +36,6 @@ Starting with one mint plant, administrators on the stage harvest mint leaves an
 ## Known Issues
 
 - Sometimes when picking leaves the returned number is not up-to-date - this is a bug in the contract
-- The value in the transaction table reflects the ether send to the contract, it should also display #leaves taken
 
 ## License
 
